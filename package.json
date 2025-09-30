@@ -1,0 +1,21 @@
+{
+  "name": "swag-labs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.55.1"
+  },
+
+  "scripts": {
+  "test": "playwright test",
+  "test:headed": "playwright test --headed",
+  "report": "playwright show-report"
+}
+}
