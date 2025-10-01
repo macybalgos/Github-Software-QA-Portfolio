@@ -203,8 +203,9 @@ jobs:
           path: test-results/**/*.zip
           retention-days: 30
 
-              - name: Run Playwright tests with Allure
-        run: npx playwright test --reporter=list,allure-playwright
+      - name: Run Playwright tests with Allure
+        run: | 
+          npx playwright test --reporter=list,allure-playwright
 
            # 📈 Install Allure CLI
       - name: Install Allure CLI
