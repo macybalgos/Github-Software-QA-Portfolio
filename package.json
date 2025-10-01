@@ -16,6 +16,11 @@
   "scripts": {
   "test": "playwright test",
   "test:headed": "playwright test --headed",
-  "report": "playwright show-report"
+  "report": "playwright show-report",
+   "allure:generate": "allure generate ./allure-results --clean -o ./allure-report",
+  "allure:open": "allure open ./allure-report"
 }
+
+
 }
+
