@@ -136,6 +136,9 @@ on:
     branches: [ main, master ]
   workflow_dispatch: {} # allows manual run from GitHub UI
 
+permissions:
+  contents: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -203,16 +206,17 @@ jobs:
           path: test-results/**/*.zip
           retention-days: 30
 
+      # ▶️ Run Playwright tests with Allure
       - name: Run Playwright tests with Allure
-        run: | 
+        run: |
           npx playwright test --reporter=list,allure-playwright
 
-           # 📈 Install Allure CLI
+      # 📈 Install Allure CLI
       - name: Install Allure CLI
         run: |
           npm install -g allure-commandline --save-dev
 
-        # 📈 Generate Allure Report
+      # 📈 Generate Allure Report
       - name: Generate Allure Report
         if: always()
         run: |
@@ -236,3 +240,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./allure-report
           publish_branch: gh-pages
+
+
+            
