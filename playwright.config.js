@@ -53,11 +53,14 @@ const { defineConfig, devices } = require('@playwright/test');
 module.exports = defineConfig({
   testDir: './tests',
   timeout: 30_000,
+
   retries: 1, // retry failing tests once in CI
+  
   reporter: [
-    ['list'], // console output
-    ['junit', { outputFile: 'test-results/results.xml' }], // CI-friendly JUnit
-    ['html', { outputFolder: 'playwright-report', open: 'never' }], // HTML report
+    ['list'],
+    ['junit', { outputFile: 'test-results/results.xml' }],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    ['allure-playwright'] // ✅ Allure reporter
   ],
   use: {
     baseURL: 'https://www.saucedemo.com/',
