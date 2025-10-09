@@ -4,6 +4,7 @@ const { LoginPage } = require('../pages/LoginPage');
 const { InventoryPage } = require('../pages/InventoryPage');
 const { CartPage } = require('../pages/CartPage');
 const { CheckoutPage } = require('../pages/CheckoutPage');
+const { MenuPage } = require('../pages/MenuPage'); 
 
 console.log(require('../pages/InventoryPage'));
 
@@ -13,6 +14,7 @@ test('Complete Swag Labs purchase flow', async ({ page }) => {
   const inventoryPage = new InventoryPage(page);
   const cartPage = new CartPage(page);
   const checkoutPage = new CheckoutPage(page);
+  const menuPage = new MenuPage(page);
 
   // Step 1: Login
   await loginPage.goto();
@@ -32,4 +34,10 @@ test('Complete Swag Labs purchase flow', async ({ page }) => {
   // Step 4: Verify order complete
   const confirmation = await checkoutPage.verifyOrderComplete();
   await expect(confirmation).toContain('Thank you for your order!');
+
+   // Step 5: Logout
+  await menuPage.logout();
+  await expect(await menuPage.isLoginPageVisible()).toBeTruthy();
+  console.log('User is logged out')
 });
+
