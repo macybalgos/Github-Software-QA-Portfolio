@@ -1,0 +1,245 @@
+# # .github/workflows/playwright.yml
+# name: Playwright Tests
+
+# on:
+#   push:
+#     branches: [ main, master ]
+#   pull_request:
+#     branches: [ main, master ]
+#   workflow_dispatch: {} # allows manual run from GitHub UI
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout repo
+#         uses: actions/checkout@v4
+
+#       - name: Use Node.js 20
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '20'
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Install Playwright browsers and deps
+#         run: npx playwright install --with-deps
+
+#       - name: Run Playwright tests 
+#         # --reporter=list for readable logs, reporters configured in playwright.config.js still produce files
+#         run: npx playwright test --reporter=list
+
+#       - name: Upload Playwright HTML report
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: playwright-report
+#           path: playwright-report
+#           retention-days: 30
+
+#       - name: Upload JUnit / test-results
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-results
+#           path: test-results
+#           retention-days: 30
+
+# .github/workflows/playwright.yml
+# name: Playwright Tests
+
+# on:
+#   push:
+#     branches: [ main, master ]
+#   pull_request:
+#     branches: [ main, master ]
+#   workflow_dispatch: {} # allows manual run from GitHub UI
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repo
+#         uses: actions/checkout@v4
+
+#       - name: Use Node.js 20
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '20'
+
+#       - name: Install dependencies
+#         run: npm ci
+
+#       - name: Install Playwright browsers and deps
+#         run: npx playwright install --with-deps
+
+#       - name: Run Playwright tests
+#         # --reporter=list ensures console logs are readable
+#         run: npx playwright test --reporter=list
+
+#       # 📊 Upload HTML report
+#       - name: Upload Playwright HTML report
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: playwright-report
+#           path: playwright-report
+#           retention-days: 30
+
+#       # 📄 Upload JUnit / test results (CI integration)
+#       - name: Upload JUnit / test-results
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-results
+#           path: test-results
+#           retention-days: 30
+
+#       # 🖼️ Upload screenshots
+#       - name: Upload screenshots
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: screenshots
+#           path: test-results/**/*.png
+#           retention-days: 30
+
+#       # 🎥 Upload videos
+#       - name: Upload videos
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: videos
+#           path: test-results/**/*.webm
+#           retention-days: 30
+
+#       # 🔍 Upload Playwright traces (great for debugging failures)
+#       - name: Upload traces
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: traces
+#           path: test-results/**/*.zip
+#           retention-days: 30
+
+#           - name: Install dependencies
+#           run: npm ci
+
+name: Playwright Tests
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch: {} # allows manual run from GitHub UI
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers and deps
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests with Allure
+        run: npx playwright test --reporter=list,allure-playwright
+
+      # 📊 Upload Playwright HTML report
+      - name: Upload Playwright HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 30
+
+      # 📄 Upload JUnit / test results
+      - name: Upload JUnit / test-results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results
+          retention-days: 30
+
+      # 🖼️ Upload screenshots
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: test-results/**/*.png
+          retention-days: 30
+
+      # 🎥 Upload videos
+      - name: Upload videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: videos
+          path: test-results/**/*.webm
+          retention-days: 30
+
+      # 🔍 Upload Playwright traces
+      - name: Upload traces
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: traces
+          path: test-results/**/*.zip
+          retention-days: 30
+
+      # ▶️ Run Playwright tests with Allure
+      - name: Run Playwright tests with Allure
+        run: |
+          npx playwright test --reporter=list,allure-playwright
+
+      # 📈 Install Allure CLI
+      - name: Install Allure CLI
+        run: |
+          npm install -g allure-commandline --save-dev
+
+      # 📈 Generate Allure Report
+      - name: Generate Allure Report
+        if: always()
+        run: |
+          allure generate ./allure-results --clean -o ./allure-report
+          ls -l ./allure-report
+
+      # 📦 Upload Allure Report Artifact
+      - name: Upload Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+          retention-days: 30
+
+      # 🌐 Deploy Allure Report to GitHub Pages
+      - name: Deploy Allure Report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+          publish_branch: gh-pages
+
+
+            
