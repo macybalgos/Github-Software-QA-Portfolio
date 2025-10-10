@@ -1,5 +1,5 @@
+<h2><b> Automation Projects Overview </b></h2>
 
-<h2><b>  Playwright Automation Overview </b></h2>
-
-This section presents my professional experience in <b>automation testing using Playwright</b>. It highlights my approach to building scalable, maintainable test frameworks, utilizing the <b>Page Object Model</b>, <b>Allure reporting</b>, and <b>CI/CD integration</b>. Each example reflects real-world QA practices focused on reliability, efficiency, and quality delivery.
-
+This section showcases my hands-on work in **automation testing**, focusing on frameworks built with **Playwright** and other modern QA tools.  
+It highlights how I design, implement, and maintain automated test suites that ensure software quality and reliability.  
+Each project demonstrates my approach to **test strategy**, **scalability**, and **reporting integration**, reflecting real-world QA engineering standards.
