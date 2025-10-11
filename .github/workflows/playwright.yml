@@ -127,6 +127,122 @@
 #           - name: Install dependencies
 #           run: npm ci
 
+# name: Playwright Tests
+
+# on:
+#   push:
+#     branches: [ main, master ]
+#   pull_request:
+#     branches: [ main, master ]
+#   workflow_dispatch: {} # allows manual run from GitHub UI
+
+# permissions:
+#   contents: write
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repo
+#         uses: actions/checkout@v4
+
+#       - name: Use Node.js 20
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: '20'
+
+#       - name: Install dependencies
+#         run: npm install
+
+#       - name: Install Playwright browsers and deps
+#         run: npx playwright install --with-deps
+
+#       - name: Run Playwright tests with Allure
+#         run: npx playwright test --reporter=list,allure-playwright
+
+#       # 📊 Upload Playwright HTML report
+#       - name: Upload Playwright HTML report
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: playwright-report
+#           path: playwright-report
+#           retention-days: 30
+
+#       # 📄 Upload JUnit / test results
+#       - name: Upload JUnit / test-results
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: test-results
+#           path: test-results
+#           retention-days: 30
+
+#       # 🖼️ Upload screenshots
+#       - name: Upload screenshots
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: screenshots
+#           path: test-results/**/*.png
+#           retention-days: 30
+
+#       # 🎥 Upload videos
+#       - name: Upload videos
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: videos
+#           path: test-results/**/*.webm
+#           retention-days: 30
+
+#       # 🔍 Upload Playwright traces
+#       - name: Upload traces
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: traces
+#           path: test-results/**/*.zip
+#           retention-days: 30
+
+#       # ▶️ Run Playwright tests with Allure
+#       - name: Run Playwright tests with Allure
+#         run: |
+#           npx playwright test --reporter=list,allure-playwright
+
+#       # 📈 Install Allure CLI
+#       - name: Install Allure CLI
+#         run: |
+#           npm install -g allure-commandline --save-dev
+
+#       # 📈 Generate Allure Report
+#       - name: Generate Allure Report
+#         if: always()
+#         run: |
+#           allure generate ./allure-results --clean -o ./allure-report
+#           ls -l ./allure-report
+
+#       # 📦 Upload Allure Report Artifact
+#       - name: Upload Allure Report
+#         if: always()
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: allure-report
+#           path: allure-report
+#           retention-days: 30
+
+#       # 🌐 Deploy Allure Report to GitHub Pages
+#       - name: Deploy Allure Report to GitHub Pages
+#         if: always()
+#         uses: peaceiris/actions-gh-pages@v3
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           publish_dir: ./allure-report
+#           publish_branch: gh-pages
+
+
+            
 name: Playwright Tests
 
 on:
@@ -144,21 +260,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 🧩 Checkout code
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      # ⚙️ Setup Node.js
       - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
+      # 📦 Install dependencies
       - name: Install dependencies
-        run: npm ci
+        working-directory: automation/playwright
+        run: npm install
 
+      # 🧰 Install Playwright browsers & dependencies
       - name: Install Playwright browsers and deps
+        working-directory: automation/playwright
         run: npx playwright install --with-deps
 
+      # ▶️ Run Playwright tests with Allure
       - name: Run Playwright tests with Allure
+        working-directory: automation/playwright
         run: npx playwright test --reporter=list,allure-playwright
 
       # 📊 Upload Playwright HTML report
@@ -167,7 +291,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: playwright-report
+          path: automation/playwright/playwright-report
           retention-days: 30
 
       # 📄 Upload JUnit / test results
@@ -176,7 +300,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: test-results
+          path: automation/playwright/test-results
           retention-days: 30
 
       # 🖼️ Upload screenshots
@@ -185,7 +309,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: screenshots
-          path: test-results/**/*.png
+          path: automation/playwright/test-results/**/*.png
           retention-days: 30
 
       # 🎥 Upload videos
@@ -194,7 +318,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: videos
-          path: test-results/**/*.webm
+          path: automation/playwright/test-results/**/*.webm
           retention-days: 30
 
       # 🔍 Upload Playwright traces
@@ -203,22 +327,18 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: traces
-          path: test-results/**/*.zip
+          path: automation/playwright/test-results/**/*.zip
           retention-days: 30
-
-      # ▶️ Run Playwright tests with Allure
-      - name: Run Playwright tests with Allure
-        run: |
-          npx playwright test --reporter=list,allure-playwright
 
       # 📈 Install Allure CLI
       - name: Install Allure CLI
-        run: |
-          npm install -g allure-commandline --save-dev
+        working-directory: automation/playwright
+        run: npm install -g allure-commandline --save-dev
 
-      # 📈 Generate Allure Report
+      # 📊 Generate Allure Report
       - name: Generate Allure Report
         if: always()
+        working-directory: automation/playwright
         run: |
           allure generate ./allure-results --clean -o ./allure-report
           ls -l ./allure-report
@@ -229,7 +349,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
-          path: allure-report
+          path: automation/playwright/allure-report
           retention-days: 30
 
       # 🌐 Deploy Allure Report to GitHub Pages
@@ -238,8 +358,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./allure-report
+          publish_dir: automation/playwright/allure-report
           publish_branch: gh-pages
-
-
-            
