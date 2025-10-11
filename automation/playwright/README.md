@@ -20,3 +20,4 @@ This repository serves as a window into how I approach quality assurance, test d
 I’m passionate about delivering reliable, user-focused software through a blend of analytical thinking, attention to detail, and technical precision. Over the past 12 years, I’ve worked with cross-functional teams to build and refine QA processes that ensure consistent quality and efficiency.
 
 If you’d like to see how I plan, execute, and report on testing activities — this is a good place to start.
+"# trigger build" 
