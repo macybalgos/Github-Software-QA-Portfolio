@@ -1,3 +1,6 @@
 # Ignore environment files
 .env
 groq-testcase-generator/.env
+
+# Ignore Playwright GitHub folder
+automation/playwright/.github/
