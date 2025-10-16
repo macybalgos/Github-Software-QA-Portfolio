@@ -8,7 +8,8 @@
     "report": "npx playwright show-report",
     "allure:generate": "allure generate ./allure-results --clean -o ./allure-report",
     "allure:open": "allure open ./allure-report",
-    "test:report": "cmd /c \"rmdir /s /q allure-results & rmdir /s /q allure-report & npx playwright test --project=chromium --headed & allure generate allure-results --clean -o allure-report & start \"\" allure open \"allure-report\"\"\""
+    "test:report": "cmd /c \"rmdir /s /q allure-results & rmdir /s /q allure-report & npx playwright test --project=chromium --headed & allure generate allure-results --clean -o allure-report & start \"\" allure open \"allure-report\"\"\"",
+    "test:perf": "npx playwright test && node open-report.js"
   },
   "keywords": [],
   "author": "",
@@ -16,8 +17,10 @@
   "description": "",
   "devDependencies": {
     "@playwright/test": "^1.55.1",
+    "@types/node": "^24.7.2",
     "allure-commandline": "^2.34.1",
     "allure-js-commons": "^3.4.1",
-    "allure-playwright": "^3.4.1"
+    "allure-playwright": "^3.4.1",
+    "typescript": "^5.9.3"
   }
 }
