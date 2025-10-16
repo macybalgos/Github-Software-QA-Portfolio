@@ -1,0 +1,1 @@
+✅ Performance report generated: /home/runner/work/Github-Software-QA-Portfolio/Github-Software-QA-Portfolio/automation/playwright/reports/performance-report.html
