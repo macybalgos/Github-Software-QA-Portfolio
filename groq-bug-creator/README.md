@@ -1,8 +1,8 @@
 
 # 🐞 Groq Bug Creator
 
-An AI-powered **bug description generator** built with **Vite (React)** and **Node.js (Express)** using **Groq AI models**.  
-This tool helps QA engineers quickly generate structured bug reports for faster and more consistent testing documentation.
+I developed this AI-powered tool using **Vite (React)** and **Node.js (Express)**, integrated with **Groq AI models**, to automate and enhance bug description generation.
+It’s designed to assist QA engineers in producing structured, consistent, and detailed bug reports more efficiently.
 
 ---
 
@@ -119,24 +119,43 @@ Then open in your browser:
 ## 🧾 Example Output
 
 **Input:**
-> Login button not working
+> Confidential password display on dev tool
 
 **Output:**
 ```
-**Title:** Login button does not respond on click  
+**Bug Report: Confidential Password Display on Dev Tool**
+
+**Bug Title:** Incorrect Sensitive Data Display on Dev Tool Feature
+
+**Description:** The Confidential Password Display on Dev Tool feature is not functioning as intended, causing sensitive user data to be exposed. This bug is critical as it poses a significant security risk to users' personal information.
+
 **Steps to Reproduce:**
-1. Open the login page.
-2. Enter valid credentials.
-3. Click the "Login" button.
 
-**Expected Result:**  
-User should be redirected to the dashboard.
+1. Log in to the application using admin credentials (username: "admin", password: "password123").
+2. Navigate to the Developer Tools by pressing F12 or using the "Developer Tools" button in the browser.
+3. In the Dev Tools, access the "Application" or "Console" tab.
+4. Enter the `credentials` variable in the Dev Tools console and examine its contents.
+5. Verify that the entered password is displayed in plain text.
 
-**Actual Result:**  
-Button remains inactive; no response or navigation occurs.
+**Expected Result:**
 
-**Severity:** Major  
-**Environment:** Chrome 120, Windows 11
+The password should be obfuscated or masked to prevent exposure. The output in the console should only display "*******" (or a similar masking mechanism) instead of the actual password.
+
+**Actual Result:**
+
+The password is displayed in plain text in the Dev Tools console, compromising user security. This is evident from the following screen shot:
+
+[Insert screenshot or provide an example of the plain text password display]
+
+**Severity:** Critical (Severity Level: 5/5)
+
+This bug warrants immediate attention due to the significant security risk it poses. Exposure of sensitive user data can lead to identity theft, phishing attacks, and other malicious activities.
+
+**Additional Notes:**
+
+- This bug is specific to the Confidential Password Display on Dev Tool feature and does not affect other features or functionalities in the application.
+- The development team should review and update the feature to ensure that sensitive data remains secure and protected.
+- Consider implementing additional security measures, such as encryption or hashing algorithms, to safeguard user data.
 ```
 
 ---
